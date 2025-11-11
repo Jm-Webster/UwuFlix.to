@@ -69,7 +69,7 @@ footer{padding:15px;text-align:center;background:#111;color:#ff3f81;margin-top:2
 <!-- Full View Page -->
 <div id="fullViewPage" class="hidden">
   <h2 id="fullTitle"></h2>
-  <video id="fullVideo" controls poster="Thumbnails/banner.png"></video>
+  <video id="fullVideo" controls poster="Thumbnails/thumb1.png"></video>
   <div class="comments">
     <h3>Comments</h3>
     <div id="commentList">
@@ -136,14 +136,19 @@ function renderVideoGrid(videos){
 // Full view page
 function openFullView(videoSrc, title){
   previousPage = 'anime';
+
+  // Show full view container first
+  document.getElementById('fullViewPage').classList.remove('hidden');
   document.getElementById('animePage').classList.add('hidden');
   document.getElementById('homePage').classList.add('hidden');
-  document.getElementById('fullViewPage').classList.remove('hidden');
 
   const video = document.getElementById('fullVideo');
+  video.pause();
+  video.currentTime = 0;
   video.src = videoSrc;
   video.load();
-  video.play();
+  video.play().catch(err => console.log(err)); // handle autoplay issues
+
   document.getElementById('fullTitle').innerText = title;
 }
 
