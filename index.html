@@ -1,54 +1,209 @@
-<html>
+<!-- index.html (Homepage) -->
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <title>Brainrot.net</title>
-
-THIS WEBSITE SHOWCASE THE POWER OF BRAINROT!!!
-
-<title>Brainrot.com</title>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uwu Flix</title>
+<style>
+body { margin:0; font-family:Arial,sans-serif; background:#0d0d0d; color:#fff; overflow-x:hidden;}
+header {display:flex; align-items:center; padding:10px 20px; background:#111;}
+header img {height:50px; cursor:pointer;}
+header h1 {margin-left:15px; font-size:2rem; color:#ff3f81;}
+.homepage-banner {width:100%; max-height:300px; object-fit:cover; animation:fadeIn 2s ease-in;}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.anime-tabs {display:flex; justify-content:center; flex-wrap:wrap; margin:30px 20px; gap:30px;}
+.anime-card {width:200px; cursor:pointer; overflow:hidden; border-radius:12px; background:#1a1a1a; text-align:center; transition:transform 0.3s, box-shadow 0.3s;}
+.anime-card img {width:100%; height:250px; object-fit:cover; display:block;}
+.anime-card:hover {transform:scale(1.05); box-shadow:0 0 20px #ff3f81;}
+.anime-card h3 {margin:10px 0; color:#ff3f81;}
+</style>
+</head>
 <body>
 
-<h1>Welcome to BRAINROT.COM</h1>
-<p>My enemies are many. My equals are none. In the shade of olive trees, 
-  they said portal users could never be conquered. 
-  In the land of emperors and admirals, 
-  they said rumble users could never be humbled. 
-  In the realm of forest and snow, 
-  they said kitsune users could never be tamed. 
-  Now they say They fear me like a force of nature, 
-  a dealer in enlightenment and death. I say I am Ez4ence81. I am Brainrot!</p>
+<header>
+  <img src="Thumbnails/logo" alt="Logo" onclick="location.href='index.html'">
+  <h1>Uwu Flix</h1>
+</header>
 
-<img src="Kano.PNG" alt="kano.PNG" width="600" height="400"> 
+<img src="Thumbnails/banner" alt="Banner" class="homepage-banner">
 
-<h2>DOWNLOAD BLOXFRUITS HACK</h2>
-<p><strong>Link For bloxfruit Hacks:</strong></p>
-
-<a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">http://www.mediafire.com/?dr7j413wv5dc3n7t</a>
-
-<h3>BrainRot combos</h2>
-<p>Link of combos:</p>
-
-<a href=https://www.youtube.com/watch?v=pw2GtUhNoCM target="blank">Combo#1</a> 
-
-<body style="background-color:Khaki;">
-
-<h1>EXAMPLE OF BRAINROT</h1>
-<img src="Brainrot.PNG" alt="Brainrot.PNG" width="1000" height="660"> 
-
-<video width="1000" height="660" autoplay muted>
-  <source src="Example of Brainrot.mp4" type="video/mp4">
-  <source src="Example of Brainrot.ogg" type="video/ogg">
-  Your browser does not support the video tag.
-</video>
-
-<span style='font-size:100px;'>&#128053;</span>
-
-<html>
-
- <iframe width="420" height="315"
-src="https://www.youtube.com/watch?v=nreUlha9o2g>
-</iframe> 
+<div class="anime-tabs">
+  <div class="anime-card" onclick="location.href='naruto.html'">
+    <img src="Thumbnails/naruto_tab" alt="Naruto">
+    <h3>Naruto</h3>
+  </div>
+  <div class="anime-card" onclick="location.href='onepiece.html'">
+    <img src="Thumbnails/onepiece_tab" alt="One Piece">
+    <h3>One Piece</h3>
+  </div>
+</div>
 
 </body>
 </html>
 
+<!-- naruto.html (Naruto Highlights) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Naruto Highlights - Uwu Flix</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#0d0d0d;color:#fff;}
+header{display:flex;align-items:center;padding:10px 20px;background:#111;}
+header img{height:50px;cursor:pointer;}
+header h1{margin-left:15px;font-size:2rem;color:#ff3f81;}
+.back-btn{margin-left:auto;padding:8px 15px;background:#ff3f81;color:#fff;border:none;border-radius:8px;cursor:pointer;}
+.video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;padding:20px;}
+.video-card{background:#1a1a1a;border-radius:12px;overflow:hidden;cursor:pointer;transition:transform 0.3s, box-shadow 0.3s;}
+.video-card img{width:100%;display:block;}
+.video-card:hover{transform:scale(1.05);box-shadow:0 0 20px #ff3f81;}
+.video-info{padding:8px;text-align:center;}
+.video-info h3{margin:5px 0;font-size:1rem;color:#ff3f81;}
+#videoModal{display:none;position:fixed;z-index:100;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.95);overflow:auto;}
+.modal-content{background:#1a1a1a;margin:50px auto;padding:20px;max-width:800px;border-radius:10px;position:relative;}
+.modal video{width:100%;border-radius:10px;margin-bottom:15px;}
+.close-btn{position:absolute;top:10px;right:15px;font-size:25px;font-weight:bold;color:#fff;cursor:pointer;}
+.comments{margin-top:15px;}
+.comments h3{color:#ff3f81;}
+.comment{background:#0d0d0d;padding:10px;border-radius:8px;margin-bottom:10px;}
+.comment input,.comment textarea{width:100%;padding:8px;margin-bottom:5px;border-radius:5px;border:none;}
+.comment button{background:#ff3f81;border:none;color:#fff;padding:8px 12px;border-radius:5px;cursor:pointer;}
+</style>
+</head>
+<body>
+
+<header>
+  <img src="Thumbnails/logo" alt="Logo" onclick="location.href='index.html'">
+  <h1>Naruto Highlights</h1>
+  <button class="back-btn" onclick="location.href='index.html'">Home</button>
+</header>
+
+<div class="video-grid">
+  <div class="video-card" onclick="openModal('Videos/vid1.mp4','Madara Vs Shinobi Alliance')">
+    <img src="Thumbnails/thumb1" alt="Video 1">
+    <div class="video-info"><h3>Madara Vs Shinobi Alliance</h3></div>
+  </div>
+  <div class="video-card" onclick="openModal('Videos/vid2.mp4','Might Guy Vs Madara')">
+    <img src="Thumbnails/thumb2" alt="Video 2">
+    <div class="video-info"><h3>Might Guy Vs Madara</h3></div>
+  </div>
+  <div class="video-card" onclick="openModal('Videos/vid3.mp4','Kakashi Vs Obito')">
+    <img src="Thumbnails/thumb3" alt="Video 3">
+    <div class="video-info"><h3>Kakashi Vs Obito</h3></div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="videoModal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal()">&times;</span>
+    <h2 id="modalTitle"></h2>
+    <video id="modalVideo" controls></video>
+    <div class="comments">
+      <h3>Comments</h3>
+      <div class="comment"><strong>User1:</strong> Amazing fight!</div>
+      <div class="comment"><strong>User2:</strong> Epic moment!</div>
+      <div class="comment">
+        <input type="text" placeholder="Your name">
+        <textarea placeholder="Add a comment"></textarea>
+        <button>Post Comment</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function openModal(videoSrc,title){
+  document.getElementById('modalVideo').src=videoSrc;
+  document.getElementById('modalTitle').innerText=title;
+  document.getElementById('videoModal').style.display='block';
+}
+function closeModal(){
+  var video=document.getElementById('modalVideo');
+  video.pause();
+  video.currentTime=0;
+  document.getElementById('videoModal').style.display='none';
+}
+window.onclick=function(event){
+  var modal=document.getElementById('videoModal');
+  if(event.target==modal) closeModal();
+}
+</script>
+
+</body>
+</html>
+
+<!-- onepiece.html (One Piece Highlights) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>One Piece Highlights - Uwu Flix</title>
+<!-- same CSS as Naruto page -->
+<style>/* same CSS as naruto.html */</style>
+</head>
+<body>
+
+<header>
+  <img src="Thumbnails/logo" alt="Logo" onclick="location.href='index.html'">
+  <h1>One Piece Highlights</h1>
+  <button class="back-btn" onclick="location.href='index.html'">Home</button>
+</header>
+
+<div class="video-grid">
+  <div class="video-card" onclick="openModal('Videos/vid4.mp4','Roger Pirates Vs White Beard')">
+    <img src="Thumbnails/thumb4" alt="Video 4">
+    <div class="video-info"><h3>Roger Pirates Vs White Beard</h3></div>
+  </div>
+  <div class="video-card" onclick="openModal('Videos/vid5.mp4','Garp Saves Koby With Galaxy Impact')">
+    <img src="Thumbnails/thumb5" alt="Video 5">
+    <div class="video-info"><h3>Garp Saves Koby With Galaxy Impact</h3></div>
+  </div>
+  <div class="video-card" onclick="openModal('Videos/vid6.mp4','Gear 5 Luffy Vs Kaido')">
+    <img src="Thumbnails/thumb6" alt="Video 6">
+    <div class="video-info"><h3>Gear 5 Luffy Vs Kaido</h3></div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="videoModal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal()">&times;</span>
+    <h2 id="modalTitle"></h2>
+    <video id="modalVideo" controls></video>
+    <div class="comments">
+      <h3>Comments</h3>
+      <div class="comment"><strong>User1:</strong> Amazing fight!</div>
+      <div class="comment"><strong>User2:</strong> Epic moment!</div>
+      <div class="comment">
+        <input type="text" placeholder="Your name">
+        <textarea placeholder="Add a comment"></textarea>
+        <button>Post Comment</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function openModal(videoSrc,title){
+  document.getElementById('modalVideo').src=videoSrc;
+  document.getElementById('modalTitle').innerText=title;
+  document.getElementById('videoModal').style.display='block';
+}
+function closeModal(){
+  var video=document.getElementById('modalVideo');
+  video.pause();
+  video.currentTime=0;
+  document.getElementById('videoModal').style.display='none';
+}
+window.onclick=function(event){
+  var modal=document.getElementById('videoModal');
+  if(event.target==modal) closeModal();
+}
+</script>
+
+</body>
+</html>
