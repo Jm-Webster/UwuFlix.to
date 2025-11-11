@@ -38,22 +38,22 @@ header h1{margin-left:15px;font-size:2rem;color:#ff3f81;}
 <body>
 
 <header>
-  <img src="Thumbnails/logo" alt="Logo" onclick="showHome()">
+  <img src="Thumbnails/logo.png" alt="Logo" onclick="showHome()">
   <h1>Uwu Flix</h1>
   <button class="back-btn hidden" id="backBtn" onclick="showHome()">Home</button>
 </header>
 
 <!-- Homepage Banner -->
 <div id="homePage">
-  <img src="Thumbnails/banner" alt="Banner" class="homepage-banner">
+  <img src="Thumbnails/banner.png" alt="Banner" class="homepage-banner">
 
   <div class="anime-tabs">
     <div class="anime-card" onclick="showAnime('naruto')">
-      <img src="Thumbnails/naruto_tab" alt="Naruto">
+      <img src="Thumbnails/naruto_tab.png" alt="Naruto">
       <h3>Naruto</h3>
     </div>
     <div class="anime-card" onclick="showAnime('onepiece')">
-      <img src="Thumbnails/onepiece_tab" alt="One Piece">
+      <img src="Thumbnails/onepiece_tab.png" alt="One Piece">
       <h3>One Piece</h3>
     </div>
   </div>
@@ -87,14 +87,14 @@ header h1{margin-left:15px;font-size:2rem;color:#ff3f81;}
 // Anime video data
 const animeData = {
   naruto: [
-    {video:'Videos/vid1.mp4',thumb:'Thumbnails/thumb1',title:'Madara Vs Shinobi Alliance'},
-    {video:'Videos/vid2.mp4',thumb:'Thumbnails/thumb2',title:'Might Guy Vs Madara'},
-    {video:'Videos/vid3.mp4',thumb:'Thumbnails/thumb3',title:'Kakashi Vs Obito'}
+    {video:'Videos/vid1.mp4', thumb:'Thumbnails/thumb1.png', title:'Madara Vs Shinobi Alliance'},
+    {video:'Videos/vid2.mp4', thumb:'Thumbnails/thumb2.png', title:'Might Guy Vs Madara'},
+    {video:'Videos/vid3.mp4', thumb:'Thumbnails/thumb3.png', title:'Kakashi Vs Obito'}
   ],
   onepiece: [
-    {video:'Videos/vid4.mp4',thumb:'Thumbnails/thumb4',title:'Roger Pirates Vs White Beard'},
-    {video:'Videos/vid5.mp4',thumb:'Thumbnails/thumb5',title:'Garp Saves Koby With Galaxy Impact'},
-    {video:'Videos/vid6.mp4',thumb:'Thumbnails/thumb6',title:'Gear 5 Luffy Vs Kaido'}
+    {video:'Videos/vid4.mp4', thumb:'Thumbnails/thumb4.png', title:'Roger Pirates Vs White Beard'},
+    {video:'Videos/vid5.mp4', thumb:'Thumbnails/thumb5.png', title:'Garp Saves Koby With Galaxy Impact'},
+    {video:'Videos/vid6.mp4', thumb:'Thumbnails/thumb6.png', title:'Gear 5 Luffy Vs Kaido'}
   ]
 };
 
