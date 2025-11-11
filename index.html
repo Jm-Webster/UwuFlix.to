@@ -25,7 +25,7 @@ header h1{margin-left:15px;font-size:2rem;color:#ff3f81;}
 .video-info{padding:8px;text-align:center;}
 .video-info h3{margin:5px 0;font-size:1rem;color:#ff3f81;}
 #fullViewPage{display:none;padding:20px;}
-#fullViewPage video{width:100%;max-width:800px;height:450px;border-radius:10px;display:block;background:#000;margin-bottom:10px;}
+#fullViewPage video{display:block;width:100%;max-width:800px;height:450px;background:#000;border-radius:10px;margin-bottom:10px;}
 .comments{margin-top:15px;}
 .comments h3{color:#ff3f81;}
 .comment{background:#0d0d0d;padding:10px;border-radius:8px;margin-bottom:10px;}
@@ -69,7 +69,7 @@ footer{padding:15px;text-align:center;background:#111;color:#ff3f81;margin-top:2
 <!-- Full View Page -->
 <div id="fullViewPage" class="hidden">
   <h2 id="fullTitle"></h2>
-  <video id="fullVideo" controls poster="Thumbnails/thumb1.png"></video>
+  <video id="fullVideo" controls></video>
   <div class="comments">
     <h3>Comments</h3>
     <div id="commentList">
@@ -89,7 +89,7 @@ footer{padding:15px;text-align:center;background:#111;color:#ff3f81;margin-top:2
 </footer>
 
 <script>
-// Video data
+// Video data with thumbnail poster
 const animeData = {
   naruto: [
     {video:'Videos/vid1.mp4', thumb:'Thumbnails/thumb1.png', title:'Madara Vs Shinobi Alliance'},
@@ -128,17 +128,18 @@ function renderVideoGrid(videos){
     const card = document.createElement('div');
     card.className='video-card';
     card.innerHTML=`<img src="${v.thumb}" alt="${v.title}"><div class="video-info"><h3>${v.title}</h3></div>`;
-    card.onclick = function(){ openFullView(v.video, v.title); };
+    card.onclick = function(){ openFullView(v.video, v.title, v.thumb); };
     grid.appendChild(card);
   });
 }
 
-// Full view page
-function openFullView(videoSrc, title){
+// Full view page with poster fix
+function openFullView(videoSrc, title, poster){
   previousPage = 'anime';
+  const fullView = document.getElementById('fullViewPage');
 
-  // Show full view container first
-  document.getElementById('fullViewPage').classList.remove('hidden');
+  // Show container first
+  fullView.classList.remove('hidden');
   document.getElementById('animePage').classList.add('hidden');
   document.getElementById('homePage').classList.add('hidden');
 
@@ -146,8 +147,9 @@ function openFullView(videoSrc, title){
   video.pause();
   video.currentTime = 0;
   video.src = videoSrc;
-  video.load();
-  video.play().catch(err => console.log(err)); // handle autoplay issues
+  video.poster = poster;   // set thumbnail as poster
+  video.load();            // reload video
+  video.play().catch(err => console.log(err));
 
   document.getElementById('fullTitle').innerText = title;
 }
