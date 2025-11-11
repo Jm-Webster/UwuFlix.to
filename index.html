@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Uwu Flix</title>
 <style>
-body { margin:0; font-family:Arial,sans-serif; background:#0d0d0d; color:#fff; overflow-x:hidden;}
+body {margin:0; font-family:Arial,sans-serif; background:#0d0d0d; color:#fff;}
 header {display:flex; align-items:center; padding:10px 20px; background:#111;}
 header img {height:50px; cursor:pointer;}
 header h1 {margin-left:15px; font-size:2rem; color:#ff3f81;}
@@ -42,7 +42,7 @@ header h1 {margin-left:15px; font-size:2rem; color:#ff3f81;}
 </body>
 </html>
 
-<!-- naruto.html (Naruto Highlights) -->
+<!-- naruto.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -95,7 +95,6 @@ header h1{margin-left:15px;font-size:2rem;color:#ff3f81;}
   </div>
 </div>
 
-<!-- Modal -->
 <div id="videoModal">
   <div class="modal-content">
     <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -135,15 +134,36 @@ window.onclick=function(event){
 </body>
 </html>
 
-<!-- onepiece.html (One Piece Highlights) -->
+<!-- onepiece.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>One Piece Highlights - Uwu Flix</title>
-<!-- same CSS as Naruto page -->
-<style>/* same CSS as naruto.html */</style>
+<style>
+/* same CSS as naruto.html */
+body{margin:0;font-family:Arial,sans-serif;background:#0d0d0d;color:#fff;}
+header{display:flex;align-items:center;padding:10px 20px;background:#111;}
+header img{height:50px;cursor:pointer;}
+header h1{margin-left:15px;font-size:2rem;color:#ff3f81;}
+.back-btn{margin-left:auto;padding:8px 15px;background:#ff3f81;color:#fff;border:none;border-radius:8px;cursor:pointer;}
+.video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;padding:20px;}
+.video-card{background:#1a1a1a;border-radius:12px;overflow:hidden;cursor:pointer;transition:transform 0.3s, box-shadow 0.3s;}
+.video-card img{width:100%;display:block;}
+.video-card:hover{transform:scale(1.05);box-shadow:0 0 20px #ff3f81;}
+.video-info{padding:8px;text-align:center;}
+.video-info h3{margin:5px 0;font-size:1rem;color:#ff3f81;}
+#videoModal{display:none;position:fixed;z-index:100;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.95);overflow:auto;}
+.modal-content{background:#1a1a1a;margin:50px auto;padding:20px;max-width:800px;border-radius:10px;position:relative;}
+.modal video{width:100%;border-radius:10px;margin-bottom:15px;}
+.close-btn{position:absolute;top:10px;right:15px;font-size:25px;font-weight:bold;color:#fff;cursor:pointer;}
+.comments{margin-top:15px;}
+.comments h3{color:#ff3f81;}
+.comment{background:#0d0d0d;padding:10px;border-radius:8px;margin-bottom:10px;}
+.comment input,.comment textarea{width:100%;padding:8px;margin-bottom:5px;border-radius:5px;border:none;}
+.comment button{background:#ff3f81;border:none;color:#fff;padding:8px 12px;border-radius:5px;cursor:pointer;}
+</style>
 </head>
 <body>
 
@@ -168,7 +188,6 @@ window.onclick=function(event){
   </div>
 </div>
 
-<!-- Modal -->
 <div id="videoModal">
   <div class="modal-content">
     <span class="close-btn" onclick="closeModal()">&times;</span>
