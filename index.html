@@ -25,7 +25,7 @@ header h1{margin-left:15px;font-size:2rem;color:#ff3f81;}
 .video-info{padding:8px;text-align:center;}
 .video-info h3{margin:5px 0;font-size:1rem;color:#ff3f81;}
 #fullViewPage{display:none;padding:20px;}
-#fullViewPage video{width:100%;max-width:800px;border-radius:10px;}
+#fullViewPage video{width:100%;max-width:800px;border-radius:10px;margin-bottom:10px;}
 .comments{margin-top:15px;}
 .comments h3{color:#ff3f81;}
 .comment{background:#0d0d0d;padding:10px;border-radius:8px;margin-bottom:10px;}
@@ -88,7 +88,7 @@ footer{padding:15px;text-align:center;background:#111;color:#ff3f81;margin-top:2
 </footer>
 
 <script>
-// Anime video data
+// Video data
 const animeData = {
   naruto: [
     {video:'Videos/vid1.mp4', thumb:'Thumbnails/thumb1.png', title:'Madara Vs Shinobi Alliance'},
@@ -102,7 +102,6 @@ const animeData = {
   ]
 };
 
-// Current videos shown
 let currentVideos = [];
 
 // Show anime highlights
@@ -111,25 +110,34 @@ function showAnime(anime){
   document.getElementById('animePage').classList.remove('hidden');
   document.getElementById('fullViewPage').classList.add('hidden');
   document.getElementById('backBtn').classList.remove('hidden');
+
   const grid = document.getElementById('videoGrid');
   grid.innerHTML = '';
   currentVideos = animeData[anime]; // save for search
-  animeData[anime].forEach(v=>{
+
+  currentVideos.forEach(v => {
     const card = document.createElement('div');
     card.className='video-card';
     card.innerHTML=`<img src="${v.thumb}" alt="${v.title}"><div class="video-info"><h3>${v.title}</h3></div>`;
-    card.onclick=()=>openFullView(v.video,v.title);
+    card.onclick = function() {
+      openFullView(v.video, v.title);
+    };
     grid.appendChild(card);
   });
 }
 
 // Full view page
-function openFullView(videoSrc,title){
-  document.getElementById('animePage').classList.add('hidden');
+function openFullView(videoSrc, title){
   document.getElementById('homePage').classList.add('hidden');
-  document.getElementById('fullViewPage').classList.remove('hidden');
-  document.getElementById('fullVideo').src=videoSrc;
-  document.getElementById('fullTitle').innerText=title;
+  document.getElementById('animePage').classList.add('hidden');
+  const fullView = document.getElementById('fullViewPage');
+  fullView.classList.remove('hidden');
+
+  const video = document.getElementById('fullVideo');
+  video.src = videoSrc;
+  video.load();
+  video.play();
+  document.getElementById('fullTitle').innerText = title;
 }
 
 // Go back to homepage
@@ -139,7 +147,6 @@ function showHome(){
   document.getElementById('fullViewPage').classList.add('hidden');
   document.getElementById('backBtn').classList.add('hidden');
   document.getElementById('searchInput').value = '';
-  currentVideos.forEach(()=>{}); // Reset any search filtering
 }
 
 // Add static comment
@@ -161,12 +168,14 @@ function searchVideos(){
   const input = document.getElementById('searchInput').value.toLowerCase();
   const grid = document.getElementById('videoGrid');
   grid.innerHTML = '';
-  currentVideos.forEach(v=>{
+  currentVideos.forEach(v => {
     if(v.title.toLowerCase().includes(input)){
       const card = document.createElement('div');
       card.className='video-card';
       card.innerHTML=`<img src="${v.thumb}" alt="${v.title}"><div class="video-info"><h3>${v.title}</h3></div>`;
-      card.onclick=()=>openFullView(v.video,v.title);
+      card.onclick = function() {
+        openFullView(v.video, v.title);
+      };
       grid.appendChild(card);
     }
   });
