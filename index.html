@@ -10,6 +10,7 @@ header{display:flex;align-items:center;padding:10px 20px;background:#111;}
 header img{height:50px;cursor:pointer;}
 header h1{margin-left:15px;font-size:2rem;color:#ff3f81;}
 .back-btn{margin-left:auto;padding:8px 15px;background:#ff3f81;color:#fff;border:none;border-radius:8px;cursor:pointer;}
+.search-bar{margin-left:20px;padding:6px 10px;border-radius:5px;border:none;width:200px;}
 .homepage-banner{width:100%;max-height:300px;object-fit:cover;animation:fadeIn 2s ease-in;}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .anime-tabs{display:flex;justify-content:center;flex-wrap:wrap;margin:30px 20px;gap:30px;}
@@ -23,16 +24,15 @@ header h1{margin-left:15px;font-size:2rem;color:#ff3f81;}
 .video-card:hover{transform:scale(1.05);box-shadow:0 0 20px #ff3f81;}
 .video-info{padding:8px;text-align:center;}
 .video-info h3{margin:5px 0;font-size:1rem;color:#ff3f81;}
-#videoModal{display:none;position:fixed;z-index:100;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.95);overflow:auto;}
-.modal-content{background:#1a1a1a;margin:50px auto;padding:20px;max-width:800px;border-radius:10px;position:relative;}
-.modal video{width:100%;border-radius:10px;margin-bottom:15px;}
-.close-btn{position:absolute;top:10px;right:15px;font-size:25px;font-weight:bold;color:#fff;cursor:pointer;}
+#fullViewPage{display:none;padding:20px;}
+#fullViewPage video{width:100%;max-width:800px;border-radius:10px;}
 .comments{margin-top:15px;}
 .comments h3{color:#ff3f81;}
 .comment{background:#0d0d0d;padding:10px;border-radius:8px;margin-bottom:10px;}
 .comment input,.comment textarea{width:100%;padding:8px;margin-bottom:5px;border-radius:5px;border:none;}
 .comment button{background:#ff3f81;border:none;color:#fff;padding:8px 12px;border-radius:5px;cursor:pointer;}
 .hidden{display:none;}
+footer{padding:15px;text-align:center;background:#111;color:#ff3f81;margin-top:20px;}
 </style>
 </head>
 <body>
@@ -40,6 +40,7 @@ header h1{margin-left:15px;font-size:2rem;color:#ff3f81;}
 <header>
   <img src="Thumbnails/logo.png" alt="Logo" onclick="showHome()">
   <h1>Uwu Flix</h1>
+  <input type="text" id="searchInput" class="search-bar" placeholder="Search videos..." onkeyup="searchVideos()">
   <button class="back-btn hidden" id="backBtn" onclick="showHome()">Home</button>
 </header>
 
@@ -64,24 +65,27 @@ header h1{margin-left:15px;font-size:2rem;color:#ff3f81;}
   <div class="video-grid" id="videoGrid"></div>
 </div>
 
-<!-- Video Modal -->
-<div id="videoModal">
-  <div class="modal-content">
-    <span class="close-btn" onclick="closeModal()">&times;</span>
-    <h2 id="modalTitle"></h2>
-    <video id="modalVideo" controls></video>
-    <div class="comments">
-      <h3>Comments</h3>
+<!-- Full View Page -->
+<div id="fullViewPage" class="hidden">
+  <h2 id="fullTitle"></h2>
+  <video id="fullVideo" controls></video>
+  <div class="comments">
+    <h3>Comments</h3>
+    <div id="commentList">
       <div class="comment"><strong>User1:</strong> Amazing fight!</div>
       <div class="comment"><strong>User2:</strong> Epic moment!</div>
-      <div class="comment">
-        <input type="text" placeholder="Your name">
-        <textarea placeholder="Add a comment"></textarea>
-        <button>Post Comment</button>
-      </div>
+    </div>
+    <div class="comment">
+      <input type="text" id="commentName" placeholder="Your name">
+      <textarea id="commentText" placeholder="Add a comment"></textarea>
+      <button onclick="addComment()">Post Comment</button>
     </div>
   </div>
 </div>
+
+<footer>
+  &copy; 2025 Uwu Flix. All Rights Reserved.
+</footer>
 
 <script>
 // Anime video data
@@ -98,44 +102,74 @@ const animeData = {
   ]
 };
 
+// Current videos shown
+let currentVideos = [];
+
 // Show anime highlights
 function showAnime(anime){
   document.getElementById('homePage').classList.add('hidden');
   document.getElementById('animePage').classList.remove('hidden');
+  document.getElementById('fullViewPage').classList.add('hidden');
   document.getElementById('backBtn').classList.remove('hidden');
   const grid = document.getElementById('videoGrid');
   grid.innerHTML = '';
+  currentVideos = animeData[anime]; // save for search
   animeData[anime].forEach(v=>{
     const card = document.createElement('div');
     card.className='video-card';
     card.innerHTML=`<img src="${v.thumb}" alt="${v.title}"><div class="video-info"><h3>${v.title}</h3></div>`;
-    card.onclick=()=>openModal(v.video,v.title);
+    card.onclick=()=>openFullView(v.video,v.title);
     grid.appendChild(card);
   });
+}
+
+// Full view page
+function openFullView(videoSrc,title){
+  document.getElementById('animePage').classList.add('hidden');
+  document.getElementById('homePage').classList.add('hidden');
+  document.getElementById('fullViewPage').classList.remove('hidden');
+  document.getElementById('fullVideo').src=videoSrc;
+  document.getElementById('fullTitle').innerText=title;
 }
 
 // Go back to homepage
 function showHome(){
   document.getElementById('homePage').classList.remove('hidden');
   document.getElementById('animePage').classList.add('hidden');
+  document.getElementById('fullViewPage').classList.add('hidden');
   document.getElementById('backBtn').classList.add('hidden');
+  document.getElementById('searchInput').value = '';
+  currentVideos.forEach(()=>{}); // Reset any search filtering
 }
 
-// Video modal
-function openModal(videoSrc,title){
-  document.getElementById('modalVideo').src=videoSrc;
-  document.getElementById('modalTitle').innerText=title;
-  document.getElementById('videoModal').style.display='block';
+// Add static comment
+function addComment(){
+  const name = document.getElementById('commentName').value.trim();
+  const text = document.getElementById('commentText').value.trim();
+  if(name && text){
+    const div = document.createElement('div');
+    div.className='comment';
+    div.innerHTML=`<strong>${name}:</strong> ${text}`;
+    document.getElementById('commentList').appendChild(div);
+    document.getElementById('commentName').value='';
+    document.getElementById('commentText').value='';
+  }
 }
-function closeModal(){
-  const video=document.getElementById('modalVideo');
-  video.pause();
-  video.currentTime=0;
-  document.getElementById('videoModal').style.display='none';
-}
-window.onclick=function(event){
-  const modal=document.getElementById('videoModal');
-  if(event.target==modal) closeModal();
+
+// Search videos
+function searchVideos(){
+  const input = document.getElementById('searchInput').value.toLowerCase();
+  const grid = document.getElementById('videoGrid');
+  grid.innerHTML = '';
+  currentVideos.forEach(v=>{
+    if(v.title.toLowerCase().includes(input)){
+      const card = document.createElement('div');
+      card.className='video-card';
+      card.innerHTML=`<img src="${v.thumb}" alt="${v.title}"><div class="video-info"><h3>${v.title}</h3></div>`;
+      card.onclick=()=>openFullView(v.video,v.title);
+      grid.appendChild(card);
+    }
+  });
 }
 </script>
 
