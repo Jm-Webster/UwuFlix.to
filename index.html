@@ -25,7 +25,7 @@ header h1{margin-left:15px;font-size:2rem;color:#ff3f81;}
 .video-info{padding:8px;text-align:center;}
 .video-info h3{margin:5px 0;font-size:1rem;color:#ff3f81;}
 #fullViewPage{display:none;padding:20px;}
-#fullViewPage video{width:100%;max-width:800px;height:450px;border-radius:10px;margin-bottom:10px;display:block;background:#000;}
+#fullViewPage video{width:100%;max-width:800px;height:450px;border-radius:10px;display:block;background:#000;margin-bottom:10px;}
 .comments{margin-top:15px;}
 .comments h3{color:#ff3f81;}
 .comment{background:#0d0d0d;padding:10px;border-radius:8px;margin-bottom:10px;}
@@ -41,10 +41,10 @@ footer{padding:15px;text-align:center;background:#111;color:#ff3f81;margin-top:2
   <img src="Thumbnails/logo.png" alt="Logo" onclick="showHome()">
   <h1>Uwu Flix</h1>
   <input type="text" id="homepageSearch" class="search-bar" placeholder="Search anime..." onkeyup="searchHome()">
-  <button class="back-btn hidden" id="backBtn" onclick="showHome()">Home</button>
+  <button class="back-btn hidden" id="backBtn" onclick="goBack()">Back</button>
 </header>
 
-<!-- Homepage Banner -->
+<!-- Homepage -->
 <div id="homePage">
   <img src="Thumbnails/banner.png" alt="Banner" class="homepage-banner">
 
@@ -60,7 +60,7 @@ footer{padding:15px;text-align:center;background:#111;color:#ff3f81;margin-top:2
   </div>
 </div>
 
-<!-- Anime Highlights -->
+<!-- Anime Page -->
 <div id="animePage" class="hidden">
   <input type="text" id="searchInput" class="search-bar" placeholder="Search videos..." onkeyup="searchVideos()">
   <div class="video-grid" id="videoGrid"></div>
@@ -69,7 +69,7 @@ footer{padding:15px;text-align:center;background:#111;color:#ff3f81;margin-top:2
 <!-- Full View Page -->
 <div id="fullViewPage" class="hidden">
   <h2 id="fullTitle"></h2>
-  <video id="fullVideo" controls></video>
+  <video id="fullVideo" controls poster="Thumbnails/banner.png"></video>
   <div class="comments">
     <h3>Comments</h3>
     <div id="commentList">
@@ -105,10 +105,12 @@ const animeData = {
 
 let currentVideos = [];
 let currentAnime = '';
+let previousPage = 'home'; // track for back button
 
 // Show anime highlights
 function showAnime(anime){
   currentAnime = anime;
+  previousPage = 'anime';
   document.getElementById('homePage').classList.add('hidden');
   document.getElementById('animePage').classList.remove('hidden');
   document.getElementById('fullViewPage').classList.add('hidden');
@@ -133,6 +135,7 @@ function renderVideoGrid(videos){
 
 // Full view page
 function openFullView(videoSrc, title){
+  previousPage = 'anime';
   document.getElementById('animePage').classList.add('hidden');
   document.getElementById('homePage').classList.add('hidden');
   document.getElementById('fullViewPage').classList.remove('hidden');
@@ -141,12 +144,21 @@ function openFullView(videoSrc, title){
   video.src = videoSrc;
   video.load();
   video.play();
-
   document.getElementById('fullTitle').innerText = title;
+}
+
+// Back button
+function goBack(){
+  if(previousPage === 'home'){
+    showHome();
+  } else if(previousPage === 'anime'){
+    showAnime(currentAnime);
+  }
 }
 
 // Go back to homepage
 function showHome(){
+  previousPage = 'home';
   document.getElementById('homePage').classList.remove('hidden');
   document.getElementById('animePage').classList.add('hidden');
   document.getElementById('fullViewPage').classList.add('hidden');
