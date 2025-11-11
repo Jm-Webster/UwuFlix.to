@@ -25,11 +25,11 @@ header h1{margin-left:15px;font-size:2rem;color:#ff3f81;}
 .video-info{padding:8px;text-align:center;}
 .video-info h3{margin:5px 0;font-size:1rem;color:#ff3f81;}
 #fullViewPage{display:none;padding:20px;}
-#fullViewPage video{width:100%;max-width:800px;border-radius:10px;margin-bottom:10px;}
+#fullViewPage video{width:100%;max-width:800px;height:450px;border-radius:10px;margin-bottom:10px;display:block;background:#000;}
 .comments{margin-top:15px;}
 .comments h3{color:#ff3f81;}
 .comment{background:#0d0d0d;padding:10px;border-radius:8px;margin-bottom:10px;}
-.comment input,.comment textarea{width:100%;padding:8px;margin-bottom:5px;border-radius:5px;border:none;}
+.comment input,.comment textarea{width:100%;padding:8px;margin-bottom:5px;border-radius:5px;border:none;background:#222;color:#fff;}
 .comment button{background:#ff3f81;border:none;color:#fff;padding:8px 12px;border-radius:5px;cursor:pointer;}
 .hidden{display:none;}
 footer{padding:15px;text-align:center;background:#111;color:#ff3f81;margin-top:20px;}
@@ -40,7 +40,7 @@ footer{padding:15px;text-align:center;background:#111;color:#ff3f81;margin-top:2
 <header>
   <img src="Thumbnails/logo.png" alt="Logo" onclick="showHome()">
   <h1>Uwu Flix</h1>
-  <input type="text" id="searchInput" class="search-bar" placeholder="Search videos..." onkeyup="searchVideos()">
+  <input type="text" id="homepageSearch" class="search-bar" placeholder="Search anime..." onkeyup="searchHome()">
   <button class="back-btn hidden" id="backBtn" onclick="showHome()">Home</button>
 </header>
 
@@ -48,12 +48,12 @@ footer{padding:15px;text-align:center;background:#111;color:#ff3f81;margin-top:2
 <div id="homePage">
   <img src="Thumbnails/banner.png" alt="Banner" class="homepage-banner">
 
-  <div class="anime-tabs">
-    <div class="anime-card" onclick="showAnime('naruto')">
+  <div class="anime-tabs" id="animeTabs">
+    <div class="anime-card" data-title="Naruto" onclick="showAnime('naruto')">
       <img src="Thumbnails/naruto_tab.png" alt="Naruto">
       <h3>Naruto</h3>
     </div>
-    <div class="anime-card" onclick="showAnime('onepiece')">
+    <div class="anime-card" data-title="One Piece" onclick="showAnime('onepiece')">
       <img src="Thumbnails/onepiece_tab.png" alt="One Piece">
       <h3>One Piece</h3>
     </div>
@@ -62,6 +62,7 @@ footer{padding:15px;text-align:center;background:#111;color:#ff3f81;margin-top:2
 
 <!-- Anime Highlights -->
 <div id="animePage" class="hidden">
+  <input type="text" id="searchInput" class="search-bar" placeholder="Search videos..." onkeyup="searchVideos()">
   <div class="video-grid" id="videoGrid"></div>
 </div>
 
@@ -103,40 +104,44 @@ const animeData = {
 };
 
 let currentVideos = [];
+let currentAnime = '';
 
 // Show anime highlights
 function showAnime(anime){
+  currentAnime = anime;
   document.getElementById('homePage').classList.add('hidden');
   document.getElementById('animePage').classList.remove('hidden');
   document.getElementById('fullViewPage').classList.add('hidden');
   document.getElementById('backBtn').classList.remove('hidden');
 
+  currentVideos = animeData[anime];
+  renderVideoGrid(currentVideos);
+}
+
+// Render video grid
+function renderVideoGrid(videos){
   const grid = document.getElementById('videoGrid');
   grid.innerHTML = '';
-  currentVideos = animeData[anime]; // save for search
-
-  currentVideos.forEach(v => {
+  videos.forEach(v => {
     const card = document.createElement('div');
     card.className='video-card';
     card.innerHTML=`<img src="${v.thumb}" alt="${v.title}"><div class="video-info"><h3>${v.title}</h3></div>`;
-    card.onclick = function() {
-      openFullView(v.video, v.title);
-    };
+    card.onclick = function(){ openFullView(v.video, v.title); };
     grid.appendChild(card);
   });
 }
 
 // Full view page
 function openFullView(videoSrc, title){
-  document.getElementById('homePage').classList.add('hidden');
   document.getElementById('animePage').classList.add('hidden');
-  const fullView = document.getElementById('fullViewPage');
-  fullView.classList.remove('hidden');
+  document.getElementById('homePage').classList.add('hidden');
+  document.getElementById('fullViewPage').classList.remove('hidden');
 
   const video = document.getElementById('fullVideo');
   video.src = videoSrc;
   video.load();
   video.play();
+
   document.getElementById('fullTitle').innerText = title;
 }
 
@@ -147,6 +152,8 @@ function showHome(){
   document.getElementById('fullViewPage').classList.add('hidden');
   document.getElementById('backBtn').classList.add('hidden');
   document.getElementById('searchInput').value = '';
+  document.getElementById('homepageSearch').value = '';
+  filterHomeTabs('');
 }
 
 // Add static comment
@@ -163,21 +170,24 @@ function addComment(){
   }
 }
 
-// Search videos
+// Search videos in anime page
 function searchVideos(){
   const input = document.getElementById('searchInput').value.toLowerCase();
-  const grid = document.getElementById('videoGrid');
-  grid.innerHTML = '';
-  currentVideos.forEach(v => {
-    if(v.title.toLowerCase().includes(input)){
-      const card = document.createElement('div');
-      card.className='video-card';
-      card.innerHTML=`<img src="${v.thumb}" alt="${v.title}"><div class="video-info"><h3>${v.title}</h3></div>`;
-      card.onclick = function() {
-        openFullView(v.video, v.title);
-      };
-      grid.appendChild(card);
-    }
+  const filtered = currentVideos.filter(v => v.title.toLowerCase().includes(input));
+  renderVideoGrid(filtered);
+}
+
+// Search homepage anime tabs
+function searchHome(){
+  const input = document.getElementById('homepageSearch').value.toLowerCase();
+  filterHomeTabs(input);
+}
+
+function filterHomeTabs(query){
+  const tabs = document.querySelectorAll('#animeTabs .anime-card');
+  tabs.forEach(tab => {
+    const title = tab.getAttribute('data-title').toLowerCase();
+    tab.style.display = title.includes(query) ? 'block' : 'none';
   });
 }
 </script>
