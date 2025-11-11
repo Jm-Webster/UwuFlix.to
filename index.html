@@ -97,7 +97,7 @@ footer{padding:15px;text-align:center;background:#111;color:#ff3f81;margin-top:2
 </footer>
 
 <script>
-// Video data with thumbnails
+// Video data
 const animeData = {
   naruto: [
     {video:'Videos/vid1.mp4', thumb:'Thumbnails/thumb1.png', title:'Madara Vs Shinobi Alliance'},
@@ -113,12 +113,23 @@ const animeData = {
 
 let currentVideos = [];
 let currentAnime = '';
-let previousPage = 'home';
+let currentPage = 'home'; // 'home', 'anime', 'full'
 
-// Show anime highlights
+// Stop full-view video
+function stopFullVideo(){
+  const video = document.getElementById('fullVideo');
+  if(video.src){
+    video.pause();
+    video.currentTime = 0;
+    video.src = '';
+  }
+}
+
+// Show anime page
 function showAnime(anime){
+  stopFullVideo();
+  currentPage = 'anime';
   currentAnime = anime;
-  previousPage = 'anime';
   document.getElementById('homePage').style.display = 'none';
   document.getElementById('animePage').style.display = 'block';
   document.getElementById('fullViewPage').style.display = 'none';
@@ -141,38 +152,37 @@ function renderVideoGrid(videos){
   });
 }
 
-// Full view page with portrait/landscape fix
+// Open full-view video
 function openFullView(videoSrc, title, poster){
-  previousPage = 'anime';
-  const fullView = document.getElementById('fullViewPage');
-
-  fullView.style.display = 'flex';
+  stopFullVideo();
+  currentPage = 'full';
+  document.getElementById('fullViewPage').style.display = 'flex';
   document.getElementById('animePage').style.display = 'none';
   document.getElementById('homePage').style.display = 'none';
 
   const video = document.getElementById('fullVideo');
-  video.pause();
-  video.currentTime = 0;
   video.src = videoSrc;
   video.poster = poster;
   video.load();
-  video.play().catch(err => console.log(err));
+  video.play().catch(err=>console.log(err));
 
   document.getElementById('fullTitle').innerText = title;
 }
 
 // Back button
 function goBack(){
-  if(previousPage === 'home'){
-    showHome();
-  } else if(previousPage === 'anime'){
+  stopFullVideo();
+  if(currentPage === 'full'){
     showAnime(currentAnime);
+  } else if(currentPage === 'anime'){
+    showHome();
   }
 }
 
-// Homepage
+// Show homepage
 function showHome(){
-  previousPage = 'home';
+  stopFullVideo();
+  currentPage = 'home';
   document.getElementById('homePage').style.display = 'block';
   document.getElementById('animePage').style.display = 'none';
   document.getElementById('fullViewPage').style.display = 'none';
